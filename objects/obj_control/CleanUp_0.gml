@@ -4,3 +4,4 @@
 
 ds_list_destroy(sin_points);
 ds_list_destroy(cos_points);
+ds_list_destroy(tan_points);

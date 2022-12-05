@@ -24,7 +24,6 @@ if (_ball_x < xx)
 	_flip_x = -1;
 }
 
-
 if (!mouse_direction)
 {
 	dir += 2;
@@ -37,11 +36,15 @@ if (!mouse_direction)
 		if (sin_wave_timer <= 0)
 		{
 			ds_list_add(sin_points, xx, _ball_y);
-			
+			if (ds_list_size(sin_points) > 250)
+			{
+				ds_list_delete(sin_points, 0);
+				ds_list_delete(sin_points, 1);	
+			}
 			sin_wave_timer = _sin_wave_timer_time;
 		}
 		
-		for (var i = 0; i < ds_list_size(sin_points); i+=2)
+		for (var i = ds_list_size(sin_points) - 1; i >= 0; i-=2)
 		{
 			if (i >= 4)
 			{
@@ -51,33 +54,29 @@ if (!mouse_direction)
 				draw_set_color(c_white);
 				draw_set_alpha(1);
 			}
-			
-			if (i >= 1) sin_points[| i - 1] += 1;
+			sin_points[| i - 1] += 1;
 		}
 	}
 	else
-	{
 		ds_list_clear(sin_points);
-		sin_points[| 0] = -1;
-	}
-	
 	
 	if (draw_cos_wave)
 	{
 		// draw cos wave
-		var _sin_wave_timer_time = 2;
+		var _cos_wave_timer_time = 2;
 		cos_wave_timer--;
 		if (cos_wave_timer <= 0)
 		{
-			//with(instance_create_depth(xx, yy - point_distance(xx, yy, _ball_x, yy) * _flip_x, depth + 1, obj_point_wave))
-			//	image_blend = c_blue;
-			
 			ds_list_add(cos_points, xx, yy - point_distance(xx, yy, _ball_x, yy) * _flip_x);
-			
-			cos_wave_timer = _sin_wave_timer_time;
+			if (ds_list_size(cos_points) > 250)
+			{
+				ds_list_delete(cos_points, 0);
+				ds_list_delete(cos_points, 1);	
+			}
+			cos_wave_timer = _cos_wave_timer_time;
 		}
 		
-		for (var i = 0; i < ds_list_size(cos_points); i+=2)
+		for (var i = ds_list_size(cos_points) - 1; i >= 0; i-=2)
 		{
 			if (i >= 4)
 			{
@@ -87,15 +86,81 @@ if (!mouse_direction)
 				draw_set_color(c_white);
 				draw_set_alpha(1);
 			}
-			
-			if (i >= 1) cos_points[| i - 1] += 1;
+			cos_points[| i - 1] += 1;
 		}
 	}
 	else
-	{
 		ds_list_clear(cos_points);
-		cos_points[| 0] = -1;
+		
+	show_debug_message(ds_list_size(cos_points));
+	
+	if (draw_tan_wave)
+	{
+		// draw tan x = 1 line
+		draw_line_color(xx + raio, -10, xx + raio, room_height + 10, c_yellow, c_yellow);
+	
+		draw_set_color(c_yellow);
+		for(var i = 0; i < 150; i++)
+		{
+			if (dir > 90 && dir < 270)
+			{
+				var _xx = xx + lengthdir_x(i * 2, dir - 180);
+				var _yy = yy + lengthdir_y(i * 2, dir - 180);
+				if (_xx < xx + raio) draw_point(_xx, _yy);
+				if (_xx > xx + raio && _xx < xx + raio + 1)
+				{
+					var _tan_wave_timer_time = 1;
+					tan_wave_timer--;
+					if (tan_wave_timer <= 0)
+					{
+						ds_list_add(tan_points, xx + raio, _yy);
+						if (ds_list_size(tan_points) > 250)
+						{
+							ds_list_delete(tan_points, 0);
+							ds_list_delete(tan_points, 1);
+						}
+						tan_wave_timer = _tan_wave_timer_time;
+					}
+				}
+			}
+			else
+			{
+				var _xx = xx + lengthdir_x(i * 2, dir);
+				var _yy = yy + lengthdir_y(i * 2, dir);
+				if (_xx < xx + raio) draw_point(_xx, _yy);
+				if (_xx > xx + raio && _xx < xx + raio + 1)
+				{
+					var _tan_wave_timer_time = 1;
+					tan_wave_timer--;
+					if (tan_wave_timer <= 0)
+					{
+						ds_list_add(tan_points, xx + raio, _yy);
+						if (ds_list_size(tan_points) > 250)
+						{
+							ds_list_delete(tan_points, 0);
+							ds_list_delete(tan_points, 1);	
+						}
+						tan_wave_timer = _tan_wave_timer_time;
+					}
+				}
+			}
+		}
+		
+		for (var i = ds_list_size(tan_points) - 1; i >= 0; i-=2)
+		{
+			if (i >= 4)
+			{	
+				draw_set_alpha(0.5);
+				if (point_distance(tan_points[| i - 3], tan_points[| i - 2], tan_points[| i - 1], tan_points[| i]) < 150)
+					draw_line(tan_points[| i - 3], tan_points[| i - 2], tan_points[| i - 1], tan_points[| i]);
+				draw_set_alpha(1);
+			}
+			tan_points[| i - 1] += 1;
+		}
+		draw_set_color(c_white);
 	}
+	else
+		ds_list_clear(tan_points);
 }
 
 // x

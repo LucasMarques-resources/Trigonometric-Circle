@@ -14,18 +14,20 @@ mouse_direction = true;
 
 draw_sin_wave = false;
 draw_cos_wave = false;
+draw_tan_wave = false;
 
 graus = 0;
 rads = 0;
 
 sin_points = ds_list_create();
-sin_points[| 0] = -1;
 
 cos_points = ds_list_create();
-cos_points[| 0] = -1;
+
+tan_points = ds_list_create();
 
 draw_set_font(fnt_text);
 
 // Waves
 sin_wave_timer = 0;
 cos_wave_timer = 0;
+tan_wave_timer = 0;

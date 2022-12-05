@@ -1,6 +1,8 @@
 /// @description Insert description here
 // You can write your code in this editor
 
+show_debug_overlay(true);
+
 if (!mouse_locked)
 {
 	mouse_xx = mouse_x;
@@ -11,6 +13,7 @@ if (mouse_direction)
 {
 	draw_sin_wave = false;
 	draw_cos_wave = false;
+	draw_tan_wave = false;
 	dir = point_direction(xx, yy, mouse_xx, mouse_yy);
 }
 
