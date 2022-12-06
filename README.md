@@ -1,3 +1,3 @@
-# Trigonometric-Circle-GMS2
+# Trigonometric-Circle
 
 Simple trigonometric circle with sin, cos and tan functions.
