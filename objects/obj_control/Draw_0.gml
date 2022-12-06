@@ -36,7 +36,7 @@ if (!mouse_direction)
 		if (sin_wave_timer <= 0)
 		{
 			ds_list_add(sin_points, xx, _ball_y);
-			if (ds_list_size(sin_points) > 250)
+			if (ds_list_size(sin_points) > total_points)
 			{
 				ds_list_delete(sin_points, 0);
 				ds_list_delete(sin_points, 1);	
@@ -68,7 +68,7 @@ if (!mouse_direction)
 		if (cos_wave_timer <= 0)
 		{
 			ds_list_add(cos_points, xx, yy - point_distance(xx, yy, _ball_x, yy) * _flip_x);
-			if (ds_list_size(cos_points) > 250)
+			if (ds_list_size(cos_points) > total_points)
 			{
 				ds_list_delete(cos_points, 0);
 				ds_list_delete(cos_points, 1);	
@@ -106,42 +106,26 @@ if (!mouse_direction)
 			{
 				var _xx = xx + lengthdir_x(i * 2, dir - 180);
 				var _yy = yy + lengthdir_y(i * 2, dir - 180);
-				if (_xx < xx + raio) draw_point(_xx, _yy);
-				if (_xx > xx + raio && _xx < xx + raio + 1)
-				{
-					var _tan_wave_timer_time = 1;
-					tan_wave_timer--;
-					if (tan_wave_timer <= 0)
-					{
-						ds_list_add(tan_points, xx + raio, _yy);
-						if (ds_list_size(tan_points) > 250)
-						{
-							ds_list_delete(tan_points, 0);
-							ds_list_delete(tan_points, 1);
-						}
-						tan_wave_timer = _tan_wave_timer_time;
-					}
-				}
 			}
 			else
 			{
 				var _xx = xx + lengthdir_x(i * 2, dir);
 				var _yy = yy + lengthdir_y(i * 2, dir);
-				if (_xx < xx + raio) draw_point(_xx, _yy);
-				if (_xx > xx + raio && _xx < xx + raio + 1)
+			}
+			if (_xx < xx + raio) draw_point(_xx, _yy);
+			if (_xx > xx + raio && _xx < xx + raio + 1)
+			{
+				var _tan_wave_timer_time = 1;
+				tan_wave_timer--;
+				if (tan_wave_timer <= 0)
 				{
-					var _tan_wave_timer_time = 1;
-					tan_wave_timer--;
-					if (tan_wave_timer <= 0)
+					ds_list_add(tan_points, xx + raio, _yy);
+					if (ds_list_size(tan_points) > total_points)
 					{
-						ds_list_add(tan_points, xx + raio, _yy);
-						if (ds_list_size(tan_points) > 250)
-						{
-							ds_list_delete(tan_points, 0);
-							ds_list_delete(tan_points, 1);	
-						}
-						tan_wave_timer = _tan_wave_timer_time;
+						ds_list_delete(tan_points, 0);
+						ds_list_delete(tan_points, 1);	
 					}
+					tan_wave_timer = _tan_wave_timer_time;
 				}
 			}
 		}
@@ -199,7 +183,7 @@ draw_text(xx - _x_x - 10, yy, "Pi");
 draw_text(xx, yy - _y_y + 5, "3Pi / 2");
 draw_text(xx, yy + _y_y - 15, "Pi/2");
 
-if (dir >= 360)
+if (dir >= 359)
 	dir = 0;
 
 draw_set_halign(-1);

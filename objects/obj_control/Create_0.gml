@@ -25,6 +25,8 @@ cos_points = ds_list_create();
 
 tan_points = ds_list_create();
 
+total_points = 350;
+
 draw_set_font(fnt_text);
 
 // Waves

@@ -7,7 +7,10 @@ draw_text(10, 10 + _inc, "radians: " + string(rads));
 
 draw_text_color(10, 10 + _inc * 2, "sin " + string(graus) + "° : " + string(sin(rads)), c_red, c_red, c_red, c_red, 1);
 draw_text_color(10, 10 + _inc * 3, "cos " + string(graus) + "° : " + string(cos(rads)), c_blue, c_blue, c_blue, c_blue, 1);
-draw_text_color(10, 10 + _inc * 4, "tan " + string(graus) + "° : " + string(tan(rads)), c_yellow, c_yellow, c_yellow, c_yellow, 1);
+var _tan = tan(rads);
+if (_tan >= 10000)
+	_tan = "{ }"
+draw_text_color(10, 10 + _inc * 4, "tan " + string(graus) + "° : " + string(_tan), c_yellow, c_yellow, c_yellow, c_yellow, 1);
 
 draw_set_halign(fa_right);
 draw_text(room_width - 10, 10, "L - lock mouse: " + string(mouse_locked));
