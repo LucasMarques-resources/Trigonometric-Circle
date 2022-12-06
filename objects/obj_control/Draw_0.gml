@@ -91,8 +91,6 @@ if (!mouse_direction)
 	}
 	else
 		ds_list_clear(cos_points);
-		
-	show_debug_message(ds_list_size(cos_points));
 	
 	if (draw_tan_wave)
 	{
